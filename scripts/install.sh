@@ -15,3 +15,5 @@ yarn add polished
 yarn add json-server -D
 yarn add axios
 jarn json-server server.json -p 3333 -w
+
+yarn add redux react-redux
