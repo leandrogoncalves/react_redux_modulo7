@@ -11,3 +11,7 @@ yarn add react-router-dom
 yarn add styled-components
 yarn add react-icons
 yarn add polished
+
+yarn add json-server -D
+yarn add axios
+jarn json-server server.json -p 3333 -w
