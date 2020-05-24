@@ -10,6 +10,19 @@ function* addToCart({ id }) {
     state.cart.find((p) => p.id === id)
   );
 
+  //Regra de negocio intermediaria entre a acao de adicionar ao carrinho e o reducer...
+  //Ex Verificar se produto existe no estoque antes de inserir no carrinho
+  const stock = yield call(api.get, `stock/${id}`);
+  const stockAmount = stock.data.amount;
+  const currentAmount = productExists ? productExists.amount : 0;
+
+  const amount = currentAmount + 1;
+
+  if (amount > stockAmount) {
+    console.tron.warn("ERRO");
+    return;
+  }
+
   if (productExists) {
     const amount = productExists.amount + 1;
 
@@ -17,8 +30,6 @@ function* addToCart({ id }) {
   } else {
     const response = yield call(api.get, `/products/${id}`);
 
-    //Regra de negocio intermediaria entre a acao de adicionar ao carrinho e o reducer...
-    //Ex Verificar se produto existe no estoque antes de inserir no carrinho
     const data = {
       ...response.data,
       amount: 1,
