@@ -26,3 +26,4 @@ yarn add redux-saga
 yarn add reactotron-redux-saga
 
 yarn add react-toastify
+yarn add history

@@ -34,6 +34,7 @@ class Home extends Component {
     addToCartRequest(id);
     //Old form
     // dispatch(CartActions.addToCart(product));
+    //this.props.history.push("/cart"); // nao recomendado
   };
 
   render() {
