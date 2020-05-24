@@ -7,11 +7,13 @@ import {
   MdDelete,
 } from "react-icons/md";
 
+import { formatPrice } from "../../util/format";
+
 import * as CartActions from "../../store/reducers/cart/actions";
 
 import { Container, ProductTable, Total } from "./styles";
 
-function Cart({ cart, removeFromCart, updateAmount }) {
+function Cart({ cart, removeFromCart, updateAmount, total }) {
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
@@ -54,7 +56,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
                 </div>
               </td>
               <td>
-                <strong>{product.priceFormatted}</strong>
+                <strong>{product.subtotal}</strong>
               </td>
               <td>
                 <button
@@ -74,7 +76,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 
         <Total>
           <span>Total</span>
-          <strong>R$ 0,00</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
@@ -83,7 +85,16 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 
 //Convert os reducers do app em propriedados do componente
 const mapStateToProps = (state) => ({
-  cart: state.cart, //Nome do reducer em rootReduer
+  //Nome do reducer em rootReduer
+  cart: state.cart.map((product) => ({
+    ...product,
+    subtotal: formatPrice(product.price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 
 //Convert actions do redux em propriedades do componente
